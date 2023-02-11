@@ -52,3 +52,5 @@ Javascript HTML CSS
 
 合理利用prampt参数来设置每句话的前置上下文，可以使AI的语气和性格长期保持一致，也可以使关键信息不被AI忘记。
 
+本项目中有一部分代码由ChatGPT生成。
+
