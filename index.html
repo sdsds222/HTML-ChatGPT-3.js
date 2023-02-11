@@ -56,11 +56,41 @@
         window.fp = 0;
         window.pp = 0;
         window.mode = "true";
+        window.csize = 1000;
         const textarea = window.document.getElementById("res");
         const inputbox = window.document.getElementById("inputbox");
         var histories = "";
         addText("欢迎使用ChatGPT智能AI客服,本项目基于GPT-3接口开发,能够实现与ChatGPT类似的持续性对话功能,AI将记忆并结合语境对话。");
-        window.apikey = prompt("请在输入框内输入并提交您从官方网站获取的apikey:");
+        if (getCookie("apikey") != undefined && getCookie("apikey") != "") {
+            window.apikey = getCookie("apikey");
+        } else {
+            window.apikey = prompt("请在输入框内输入并提交您从官方网站获取的apikey:");
+            setCookie("apikey", window.apikey);
+        }
+        if (getCookie("prompt1") != undefined) {
+            window.prompt1 = getCookie("prompt1");
+        }
+        if (getCookie("mt") != undefined) {
+            window.mt = Number(getCookie("mt"));
+        }
+        if (getCookie("tpr") != undefined) {
+            window.tpr = Number(getCookie("tpr"));
+        }
+        if (getCookie("tp") != undefined) {
+            window.tp = Number(getCookie("tp"));
+        }
+        if (getCookie("fp") != undefined) {
+            window.fp = Number(getCookie("fp"));
+        }
+        if (getCookie("pp") != undefined) {
+            window.pp = Number(getCookie("pp"));
+        }
+        if (getCookie("mode") != undefined) {
+            window.mode = getCookie("mode");
+        }
+        if (getCookie("csize") != undefined) {
+            window.csize = Number(getCookie("csize"));
+        }
         function ask() {
             let intputtext = inputbox.value;
             if (intputtext.startsWith("/")) {
@@ -76,7 +106,9 @@
                             "/fp  (可以用来控制chatbot生成的话的“新颖程度”)\n" +
                             "/pp  (用于控制bot产生的句子的长度)\n" +
                             "/info  (用于显示当前各项参数的值)\n" +
-                            "/mode  (用于设置是否启用持续对话模式)");
+                            "/mode  (用于设置是否启用持续对话模式)\n" +
+                            "/csize  (用于设置每次发送给API接口的字符数)\n" +
+                            "/save  (用于将设置的参数保存到浏览器的Cookie,有效期30天)");
                         break;
                     case "info": addText(
                         "当前的各项参数:\n\n" +
@@ -87,7 +119,20 @@
                         "Top_p:" + window.tp + "\n" +
                         "Frequency_penalty:" + window.fp + "\n" +
                         "Presence_penalty:" + window.pp + "\n" +
-                        "mode:" + window.mode + "\n");
+                        "mode:" + window.mode + "\n" +
+                        "csize:" + window.csize);
+                        break;
+                    case "save":
+                        setCookie("apikey", window.apikey);
+                        setCookie("prompt1", window.prompt1);
+                        setCookie("mt", window.mt);
+                        setCookie("tpr", window.tpr);
+                        setCookie("tp", window.tp);
+                        setCookie("fp", window.fp);
+                        setCookie("pp", window.pp);
+                        setCookie("mode", window.mode);
+                        setCookie("csize", window.csize);
+                        addText("参数保存成功");
                         break;
                     case "apikey": window.apikey = prompt("apikey 请输入从官网获取到的apikey,默认为空"); addText("设置成功"); break;
                     case "prompt": window.prompt1 = prompt("Prompt 请输入要添加的上下文文本,默认为空"); addText("设置成功"); break;
@@ -97,23 +142,22 @@
                     case "fp": window.fp = Number(prompt("Frequency_penalty 请输入一个-2.0到2.0的一位小数,默认为0")); addText("设置成功"); break;
                     case "pp": window.pp = Number(prompt("Presence_penalty 请输入一个-2.0到2.0的一位小数,默认为0")); addText("设置成功"); break;
                     case "mode": window.mode = prompt("mode 输入“true”开启持续对话模式,输入“false”关闭该模式,默认为“true”"); addText("设置成功"); break;
+                    case "csize": window.csize = prompt("csize 输入一个0到1000的整数,默认为1000"); addText("设置成功"); break;
                     default: alert("未知指令");
                 }
                 inputbox.value = "";
                 return;
             }
             if (window.mode == "false") {
-                console.log("清空");
                 histories = [];
             }
-            histories += "\nQ:" + window.prompt1 + intputtext + "。";
+            histories += "\n" + window.prompt1 + "\nQ:" + intputtext + "。";
             let question = "";
-            if (histories.length <= 1000) {
+            if (histories.length <= window.csize) {
                 question = histories;
             } else {
-                question = histories.substring(histories.length - 1000)
+                question = histories.substring(histories.length - window.csize)
             }
-
             console.log(question);
             addText("我说：\n\n" + intputtext);
             textarea.value += '\n正在请求数据......';
@@ -141,6 +185,30 @@
             textarea.value += "\n" + text + "\n" + "————————————————————";
             textarea.scrollTop = textarea.scrollHeight;
         }
+        // 添加cookie
+        function setCookie(name, value) {
+            let days = 10;
+            var expires = '';
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = '; expires=' + date.toUTCString();
+            }
+            document.cookie = name + '=' + (value || '') + expires + '; path=/';
+        }
+
+        // 读取cookie
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
     </script>
 
 </body>
