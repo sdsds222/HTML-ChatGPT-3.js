@@ -4,6 +4,9 @@
 一个用原生JavaScript和编写的ChatGPT API接口使用聊天界面，基于openai的GPT-3技术，
 
 并增加记忆对话上下文的功能，使AI对话更加自然，可实现与官网ChatGPT类似的持续性对话效果。
+
+静态网页：http://sdsds222.gitee.io/chat-gpt.js/
+
 ![输入图片说明](img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-11%20092124.png)
 ![输入图片说明](img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202023-02-11%20092314.png)
 #### 软件架构
