@@ -4,7 +4,7 @@ ChatGPT-3.5.js聊天界面项目更新，使用官方最新版 GPT-3.5 turbo api
 
 优化用户界面和功能。
 
-前往 ChatGPT-3.5.js 仓库地址：https://gitee.com/sdsds222/chat-gpt-3.5.js
+前往 ChatGPT-3.5.js 仓库地址：https://github.com/sdsds222/ChatGPT-3.5.js
 
 ChatGPT-3.5.js 静态网页：http://sdsds222.gitee.io/chat-gpt-3.5.js
 
