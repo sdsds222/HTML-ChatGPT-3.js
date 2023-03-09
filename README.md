@@ -1,5 +1,13 @@
 # ChatGPT.js
 
+ChatGPT-3.5.js聊天界面项目更新，使用官方最新版 GPT-3.5 turbo api 实现对话功能和记忆功能,速度更快，价格更低，功能更强大。
+
+优化用户界面和功能。
+
+前往 ChatGPT-3.5.js 仓库地址：https://gitee.com/sdsds222/chat-gpt-3.5.js
+
+ChatGPT-3.5.js 静态网页：http://sdsds222.gitee.io/chat-gpt-3.5.js
+
 #### 介绍
 一个用原生JavaScript和编写的ChatGPT聊天界面，基于openai的GPT-3 API接口实现，
 
